@@ -1,6 +1,8 @@
 package com.sproutcone.service.webclient.kakao;
 
+import com.sproutcone.dto.internal.response.KakaoLogoutResponseDto;
 import com.sproutcone.dto.internal.response.KakaoTokenResponseDto;
+import com.sproutcone.dto.internal.response.KakaoUnlinkResponseDto;
 import com.sproutcone.dto.internal.response.KakaoUserInfoResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -77,5 +79,40 @@ public class KakaoApiService {
                 .retrieve()
                 .bodyToMono(KakaoUserInfoResponseDto.class)
                 .block();
+    }
+
+    /**
+     * 카카오 액세스 토큰을 만료시켜 카카오 서비스에서 로그아웃합니다.
+     *
+     * @param kakaoAccessToken 우리 DB에 저장되어 있던 카카오 액세스 토큰
+     * @return 로그아웃된 사용자의 카카오 ID
+     */
+    public KakaoLogoutResponseDto kakaoLogout(String kakaoAccessToken) {
+        String uri = "/v1/user/logout";
+
+        return kakaoApiClient.post()
+                .uri(uri)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + kakaoAccessToken)
+                .retrieve()
+                .bodyToMono(KakaoLogoutResponseDto.class)
+                .block(); // MVC 환경이므로 동기 처리
+    }
+
+    /**
+     * 카카오 앱과 사용자의 연결을 끊습니다 (회원 탈퇴).
+     *
+     * @param kakaoAccessToken 우리 DB에 저장되어 있던 카카오 액세스 토큰
+     * @return 연결 끊기 된 사용자의 카카오 ID
+     */
+    public KakaoUnlinkResponseDto kakaoUnlink(String kakaoAccessToken) {
+        String uri = "/v1/user/unlink";
+
+        // 카카오 연결 끊기 API는 POST 방식입니다.
+        return kakaoApiClient.post()
+                .uri(uri)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + kakaoAccessToken)
+                .retrieve()
+                .bodyToMono(KakaoUnlinkResponseDto.class)
+                .block(); // MVC 환경이므로 동기 처리
     }
 }

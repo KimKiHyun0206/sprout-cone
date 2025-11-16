@@ -25,10 +25,10 @@ public class Runner {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "runner", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "runner", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<RunningArt> runningArts;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "kakao_token_id")
     private KakaoToken kakaoToken;
 
