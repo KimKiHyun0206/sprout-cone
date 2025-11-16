@@ -11,4 +11,5 @@ public interface RunnerJapRepository extends JpaRepository<Runner, Long> {
     Optional<Runner> findByKakaoTokenId(Long kakaoTokenId);
     boolean existsByKakaoTokenId(Long kakaoTokenId);
     boolean deleteByKakaoTokenId(Long kakaoTokenId);
+    Optional<Runner> findByEmail(String email);
 }

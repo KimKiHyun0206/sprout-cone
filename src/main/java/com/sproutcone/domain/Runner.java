@@ -27,4 +27,10 @@ public class Runner {
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "kakao_token_id")
     private KakaoToken kakaoToken;
+
+    public Runner(String nickname, String email, String password){
+        this.name = nickname;
+        this.email = email;
+        this.password = password;
+    }
 }
