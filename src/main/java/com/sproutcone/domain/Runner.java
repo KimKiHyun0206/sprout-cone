@@ -1,10 +1,14 @@
 package com.sproutcone.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Runner {
 
     @Id
@@ -32,5 +36,9 @@ public class Runner {
         this.name = nickname;
         this.email = email;
         this.password = password;
+    }
+
+    public void updateKakaoToken(KakaoToken kakaoToken) {
+        this.kakaoToken = kakaoToken;
     }
 }
