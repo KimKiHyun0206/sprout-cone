@@ -1,10 +1,323 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8" />
+  <title>러닝아트 생성하기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    body {
+      background-image: url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mainimage-Y4rlZOTP9RUdC9Xor2mwCYia19aP9V.png");
+      background-size: cover;
+      background-position: center;
+    }
+    .bg-blur {
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Shooting star animation */
+    @keyframes shooting {
+      0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; }
+      70% { opacity: 1; }
+      100% { transform: translateX(300px) translateY(300px) rotate(-45deg); opacity: 0; }
+    }
+    .shooting-star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      animation: shooting 3s ease-in infinite;
+    }
+    select {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+select option {
+  background-color: rgba(25, 0, 55, 0.9); /* 딥 퍼플 */
+  color: white;
+}
+
+select option:checked {
+  background-color: rgba(150, 90, 255, 0.8);
+  color: white;
+}
+
+  </style>
 </head>
-<body>
+
+<body class="min-h-screen text-white">
+
+<!-- Shooting Stars -->
+<div class="fixed inset-0 pointer-events-none">
+  <div class="shooting-star" style="top:10%; left:40%; animation-delay:0s;"></div>
+  <div class="shooting-star" style="top:20%; left:70%; animation-delay:8s;"></div>
+  <div class="shooting-star" style="top:5%; left:15%; animation-delay:16s;"></div>
+</div>
+
+<!-- Header -->
+<header class="w-full px-6 py-4 flex items-center justify-between bg-black/30">
+  <a href="/" class="text-white hover:opacity-80">← 돌아가기</a>
+  <img
+    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%202025%EB%85%84%2011%EC%9B%94%2012%EC%9D%BC%20%EC%98%A4%ED%9B%84%2006_49_46-KkdNi8eRKRtmyvGjfBZ8KIzSsAc6s4.png"
+    class="h-10"
+  />
+</header>
+
+<!-- Main -->
+<main class="px-6 py-10">
+  <div class="max-w-6xl mx-auto">
+
+    <h1 class="text-5xl font-bold text-center mb-3">러닝아트 생성하기</h1>
+    <p class="text-center text-white/80 mb-10">주소를 설정하고 원하는 모양을 입력하세요.</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- LEFT: Form -->
+      <div class="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 space-y-6">
+
+        <div class="flex justify-end">
+          <button id="btnExample" class="bg-purple-500 px-4 py-2 rounded-lg">
+            예시 주소 입력
+          </button>
+        </div>
+
+        <!-- 실력 -->
+        <div>
+          <label class="block mb-2">실력 수준</label>
+          <select id="proficiency" class="w-full bg-white/20 border rounded px-3 py-2">
+            <option value="">선택하세요</option>
+            <option value="beginner">초보자 (3km)</option>
+            <option value="intermediate">중수 (10km)</option>
+            <option value="advanced">고수 (20km)</option>
+            <option value="marathon">마라톤 (40km)</option>
+          </select>
+        </div>
+
+        <!-- 모양 -->
+        <div>
+          <label class="block mb-2">원하는 모양</label>
+          <input
+            id="shape"
+            class="w-full bg-white/20 border rounded px-3 py-2"
+            placeholder="예: 하트, 별, 나비"
+          />
+        </div>
+
+        <!-- 출발지 -->
+        <div class="relative">
+          <label class="block mb-2">출발지</label>
+          <input
+            id="startInput"
+            class="w-full bg-white/20 border rounded px-3 py-2"
+            placeholder="도로명 주소 입력"
+          />
+          <div id="startResults"
+               class="absolute z-50 w-full bg-white text-black rounded mt-1 hidden max-h-48 overflow-auto">
+          </div>
+        </div>
+
+        <!-- 도착지 -->
+        <div class="relative">
+          <label class="block mb-2">도착지</label>
+          <input
+            id="endInput"
+            class="w-full bg-white/20 border rounded px-3 py-2"
+            placeholder="도로명 주소 입력"
+          />
+          <div id="endResults"
+               class="absolute z-50 w-full bg-white text-black rounded mt-1 hidden max-h-48 overflow-auto">
+          </div>
+        </div>
+
+        <!-- 지도버튼 -->
+        <div class="flex gap-3">
+          <button id="btnShowMap"
+                  class="flex-1 bg-indigo-500 px-4 py-2 rounded-lg">지도에 표시</button>
+          <button id="btnReset"
+                  class="flex-1 bg-white/30 px-4 py-2 rounded-lg">초기화</button>
+        </div>
+
+        <!-- 생성하기 -->
+        <button id="btnGenerate"
+                class="w-full bg-purple-600 px-4 py-4 rounded-lg text-lg font-semibold">
+          아트 생성하기
+        </button>
+      </div>
+
+      <!-- RIGHT: Map + Result -->
+      <div class="space-y-6">
+
+        <!-- Map -->
+        <div class="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/30">
+          <h3 class="text-white mb-3">경로 미리보기</h3>
+          <div id="map" class="w-full aspect-square rounded-lg"></div>
+        </div>
+
+        <!-- Generated Image -->
+        <div id="generatedContainer"
+             class="hidden bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/30">
+          <h3 class="text-white mb-3">생성된 러닝아트</h3>
+          <img id="generatedImage" class="w-full rounded-lg" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+let map;
+let startMarker = null;
+let endMarker = null;
+let tempStartCoords = null;
+let tempEndCoords = null;
+
+/* =======================
+   지도 초기화
+======================= */
+function initMap() {
+  map = L.map("map").setView([37.5665, 126.978], 13);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors"
+  }).addTo(map);
+}
+
+initMap();
+
+/* =======================
+   주소 검색 (카카오)
+======================= */
+async function searchAddress(query, isStart) {
+  if (query.length < 2) return;
+
+  const response = await fetch(
+    "https://dapi.kakao.com/v2/local/search/address.json?query=" +
+      encodeURIComponent(query),
+    {
+      headers: {
+        Authorization: "KakaoAK YOUR_KAKAO_REST_API_KEY"
+      }
+    }
+  );
+  const data = await response.json();
+  const list = data.documents || [];
+
+  const targetBox = isStart
+    ? document.getElementById("startResults")
+    : document.getElementById("endResults");
+
+  targetBox.innerHTML = "";
+  targetBox.classList.remove("hidden");
+
+  list.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "px-3 py-2 hover:bg-purple-100 cursor-pointer";
+    div.innerText = item.address_name;
+    div.onclick = () => selectAddress(item, isStart);
+    targetBox.appendChild(div);
+  });
+}
+
+function selectAddress(address, isStart) {
+  const coords = [parseFloat(address.y), parseFloat(address.x)];
+
+  if (isStart) {
+    document.getElementById("startInput").value = address.address_name;
+    tempStartCoords = coords;
+    document.getElementById("startResults").classList.add("hidden");
+  } else {
+    document.getElementById("endInput").value = address.address_name;
+    tempEndCoords = coords;
+    document.getElementById("endResults").classList.add("hidden");
+  }
+}
+
+/* =======================
+   예시 값 자동입력
+======================= */
+document.getElementById("btnExample").onclick = () => {
+  document.getElementById("startInput").value =
+    "서울특별시 중구 세종대로 110";
+  tempStartCoords = [37.5663245, 126.9784147];
+
+  document.getElementById("endInput").value =
+    "서울특별시 용산구 남산공원길 105";
+  tempEndCoords = [37.5511694, 126.9882266];
+};
+
+/* =======================
+   지도에 표시
+======================= */
+document.getElementById("btnShowMap").onclick = () => {
+  if (tempStartCoords) {
+    if (startMarker) map.removeLayer(startMarker);
+    startMarker = L.marker(tempStartCoords).addTo(map);
+    map.setView(tempStartCoords, 14);
+  }
+  if (tempEndCoords) {
+    if (endMarker) map.removeLayer(endMarker);
+    endMarker = L.marker(tempEndCoords).addTo(map);
+  }
+};
+
+/* =======================
+   초기화
+======================= */
+document.getElementById("btnReset").onclick = () => {
+  document.getElementById("startInput").value = "";
+  document.getElementById("endInput").value = "";
+  tempStartCoords = null;
+  tempEndCoords = null;
+
+  if (startMarker) map.removeLayer(startMarker);
+  if (endMarker) map.removeLayer(endMarker);
+
+  startMarker = null;
+  endMarker = null;
+
+  map.setView([37.5665, 126.978], 13);
+};
+
+/* =======================
+   아트 생성 (mock)
+======================= */
+document.getElementById("btnGenerate").onclick = () => {
+  const container = document.getElementById("generatedContainer");
+  const img = document.getElementById("generatedImage");
+
+  img.src =
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/running-art-heart-example.jpg";
+  container.classList.remove("hidden");
+};
+
+/* =======================
+   실시간 입력 감지
+======================= */
+document.getElementById("startInput").addEventListener("input", (e) =>
+  searchAddress(e.target.value, true)
+);
+
+document.getElementById("endInput").addEventListener("input", (e) =>
+  searchAddress(e.target.value, false)
+);
+</script>
 
 </body>
 </html>
