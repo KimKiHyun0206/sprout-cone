@@ -3,14 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Aetheria 로그인</title>
+<link rel="icon" href="../static/favicon.png" />
 
 
 <!-- TailwindCSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+
+<script>
+  Kakao.init("YOUR_KAKAO_JAVASCRIPT_KEY");
+  console.log("Kakao SDK Initialized:", Kakao.isInitialized());
+</script>
+
 
 </head>
 <body class="min-h-screen flex flex-col relative">
-<link rel="icon" href="../static/favicon.png" />
 
 <!-- Background -->
 <div class="fixed inset-0 z-0"
@@ -61,13 +69,13 @@ class="w-10 h-10 object-contain" />
 
 <div class="space-y-4">
 <!-- 카카오 로그인 버튼 -->
-<button class="w-full bg-[#FEE500] hover:bg-[#FDD835] text-[#000000] py-6 text-lg font-semibold flex items-center justify-center gap-3 rounded-lg">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 3C6.477 3 2 6.477 2 10.8C2 13.386 3.563 15.679 6 17.1V21L9.75 18.75C10.47 18.9 11.22 19 12 19C17.523 19 22 15.523 22 11.2C22 6.877 17.523 3 12 3Z"
-fill="currentColor"/>
-</svg>
-카카오로 시작하기
+  <button
+  onclick="redirectToKakaoLogin()"
+  class="w-full bg-[#FEE500] hover:bg-[#FDD835] text-black py-6 text-lg font-semibold rounded-lg flex items-center justify-center gap-3"
+>
+  카카오로 시작하기
 </button>
+
 
 
 <p class="text-white/50 text-xs text-center leading-relaxed">
@@ -83,7 +91,22 @@ fill="currentColor"/>
 </div>
 </main>
 </div>
+<script>
+  function redirectToKakaoLogin() {
 
+    //  이 두 값은 나중에 실제 값으로 바꾸면 됨
+    const REST_API_KEY = "카카오 REST API 키";  
+    const REDIRECT_URI = "http://localhost:8080/api/v1/auth/kakao/callback";
+
+    const kakaoURL =
+      "https://kauth.kakao.com/oauth/authorize"
+      + "?response_type=code"
+      + "&client_id=" + REST_API_KEY
+      + "&redirect_uri=" + encodeURIComponent(REDIRECT_URI);
+
+    window.location.href = kakaoURL; // 카카오 로그인으로 이동
+  }
+</script>
 
 </body>
 </html>
