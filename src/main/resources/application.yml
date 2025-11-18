@@ -1,5 +1,8 @@
 # JWT 설정
 # ⚠️ 주의: 실제 운영에서는 절대 노출되면 안 되는 강력한 시크릿 키를 사용해야 합니다.
 # (예: Base64 인코딩된 64바이트 이상의 문자열)
-jwt.secret=aVeryLongAndSecureSecretKeyForYourPrototype1234567890abcdefghijklmnopqrstuvwxyz
-jwt.expiration-ms=3600 # (초 단위, 3600초 = 1시간)
+
+
+jwt:
+  secret: aVeryLongAndSecureSecretKeyForYourPrototype1234567890abcdefghijklmnopqrstuvwxyz
+  expiration-ms: 3600
