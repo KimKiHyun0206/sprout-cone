@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:replace="${pageTitle} :: title">Aetheria</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png"
+          href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logoimage-Photoroom-ALLWHITE.png" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Leaflet CSS (필요한 페이지에서 지도 사용 가능) -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+        body {
+            background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mainimage-Y4rlZOTP9RUdC9Xor2mwCYia19aP9V.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        /* Shooting Star Animation */
+        @keyframes shooting {
+            0% { transform: translate(0, 0) rotate(-45deg); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translate(300px, 300px) rotate(-45deg); opacity: 0; }
+        }
+        .shooting-star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: shooting 3s ease-in infinite;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative">
+
+<!-- Shooting Stars -->
+<div class="fixed inset-0 pointer-events-none z-[1]">
+    <div class="shooting-star" style="top:10%; left:40%; animation-delay:0s;"></div>
+    <div class="shooting-star" style="top:20%; left:70%; animation-delay:8s;"></div>
+    <div class="shooting-star" style="top:5%; left:15%; animation-delay:16s;"></div>
+</div>
+
+<!-- Dark Overlay -->
+<div class="fixed inset-0 bg-black/50 z-[2]"></div>
+
+<!-- Header -->
+<header class="z-[5] relative w-full px-6 py-4 flex items-center justify-between">
+    <a href="/" class="text-white hover:opacity-80 text-lg font-medium">
+        ← 돌아가기
+    </a>
+
+    <img
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%202025%EB%85%84%2011%EC%9B%94%2012%EC%9D%BC%20%EC%98%A4%ED%9B%84%2006_49_46-KkdNi8eRKRtmyvGjfBZ8KIzSsAc6s4.png"
+        alt="Aetheria Logo"
+        class="h-10 object-contain"
+    />
+</header>
+
+<!-- Page Content -->
+<main layout:fragment="content" class="relative z-[5] px-6 py-10 max-w-6xl mx-auto">
+    <!-- 각 페이지에서 이 영역을 채워 넣음 -->
+</main>
+
+<!-- Leaflet JS (지도 필요한 페이지에서 바로 사용 가능) -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+</body>
+</html>

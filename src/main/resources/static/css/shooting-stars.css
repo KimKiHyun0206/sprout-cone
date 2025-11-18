@@ -1,0 +1,26 @@
+/* Shooting Star Animation */
+.shooting-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 9999px;
+    opacity: 0.85;
+    animation-name: shooting;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes shooting {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(400px, 300px) scale(0.2);
+        opacity: 0;
+    }
+}
