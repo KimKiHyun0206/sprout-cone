@@ -22,9 +22,6 @@ public class Runner {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
-
     @OneToMany(mappedBy = "runner", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<RunningArt> runningArts;
 
@@ -32,10 +29,9 @@ public class Runner {
     @JoinColumn(name = "kakao_token_id")
     private KakaoToken kakaoToken;
 
-    public Runner(String nickname, String email, String password){
+    public Runner(String nickname, String email){
         this.name = nickname;
         this.email = email;
-        this.password = password;
     }
 
     public void updateKakaoToken(KakaoToken kakaoToken) {
