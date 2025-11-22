@@ -2,6 +2,7 @@ package com.sproutcone.service.usecase.sign;
 
 import com.sproutcone.domain.KakaoToken;
 import com.sproutcone.domain.Runner;
+import com.sproutcone.dto.internal.response.KakaoUnlinkResponseDto;
 import com.sproutcone.repository.RunnerJpaRepository;
 import com.sproutcone.service.webclient.kakao.KakaoApiService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,8 @@ public class WithdrawService {
         if (kakaoToken != null) {
             try {
                 // 카카오 API 호출하여 연결 끊기
-                kakaoApiService.kakaoUnlink(kakaoToken.getAccessToken());
-                log.info("카카오 연결 끊기 성공. Runner ID: {}", runnerId);
+                KakaoUnlinkResponseDto kakaoUnlinkResponseDto = kakaoApiService.kakaoUnlink(kakaoToken.getAccessToken());
+                log.info("카카오 연결 끊기 성공. Runner KAKAO ID: {}", kakaoUnlinkResponseDto);
             } catch (Exception e) {
                 // 카카오 API 호출이 실패하더라도 (예: 토큰 만료, 카카오 서버 오류)
                 // 우리 서비스의 회원 탈퇴는 계속 진행되어야 합니다.
