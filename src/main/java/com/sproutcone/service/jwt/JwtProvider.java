@@ -1,5 +1,6 @@
 package com.sproutcone.service.jwt;
 
+import com.sproutcone.config.properties.JWTProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -28,13 +29,11 @@ public class JwtProvider {
     private final long tokenValidityInMilliseconds;
 
     // 1. application.properties에서 시크릿 키와 만료 시간을 주입받음
-    public JwtProvider(
-            @Value("${jwt.secret}") String secretKey,
-            @Value("${jwt.expiration-ms}") long tokenValidityInSeconds) {
+    public JwtProvider(JWTProperties jwtProperties) {
         
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.secret());
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+        this.tokenValidityInMilliseconds = jwtProperties.accessTokenValidityInHour().toMillis();
     }
 
     // 2. 인증 정보를 기반으로 액세스 토큰 생성
