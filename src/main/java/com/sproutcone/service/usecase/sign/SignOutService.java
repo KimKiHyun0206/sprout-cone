@@ -2,6 +2,7 @@ package com.sproutcone.service.usecase.sign;
 
 import com.sproutcone.domain.KakaoToken;
 import com.sproutcone.domain.Runner;
+import com.sproutcone.dto.internal.response.KakaoLogoutResponseDto;
 import com.sproutcone.repository.RunnerJpaRepository;
 import com.sproutcone.service.webclient.kakao.KakaoApiService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,8 @@ public class SignOutService {
 
         // 4. (핵심) KakaoApiService를 통해 카카오 토큰 만료
         try {
-            kakaoApiService.kakaoLogout(kakaoToken.getAccessToken());
+            KakaoLogoutResponseDto kakaoLogoutResponseDto = kakaoApiService.kakaoLogout(kakaoToken.getAccessToken());
+            log.info("카카오 로그아웃 성공 {}", kakaoLogoutResponseDto.getId());
         } catch (Exception e) {
             // 카카오 서버에서 이미 만료되었거나 유효하지 않은 토큰이라도
             // 우리 서버에서는 로그아웃을 계속 진행해야 합니다.

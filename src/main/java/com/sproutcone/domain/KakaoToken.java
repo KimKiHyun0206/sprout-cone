@@ -21,7 +21,7 @@ public class KakaoToken {
     /**
      * 토큰 소유자(사용자)의 고유 식별자입니다. (Foreign Key)
      */
-    @OneToOne(mappedBy = "kakao_token")
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "runner_id", nullable = false)
     private Runner runner;
 

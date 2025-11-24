@@ -32,7 +32,7 @@ public class SignInService {
         Runner runner = runnerJpaRepository.findByEmail(userInfo.getEmail())
                 .orElseGet(() -> {
                     // 신규 회원이면 Runner 생성 (이름, 이메일, 임시 비밀번호 등)
-                    Runner newRunner = new Runner(userInfo.getNickname(), userInfo.getEmail(), "tempPassword");
+                    Runner newRunner = new Runner(userInfo.getNickname(), userInfo.getEmail());
                     return runnerJpaRepository.save(newRunner);
                 });
 

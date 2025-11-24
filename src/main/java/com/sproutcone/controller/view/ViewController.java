@@ -31,7 +31,7 @@ public class ViewController {
      * */
     @RequestMapping("/me")
     public String me() {
-        return "me";
+        return "mypage";
     }
 
     /**

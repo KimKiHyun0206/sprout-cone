@@ -1,9 +1,11 @@
 package com.sproutcone.service.jwt;
 
+import com.sproutcone.config.properties.JWTProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -14,17 +16,19 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Slf4j
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String BEARER_PREFIX = "Bearer ";
+    public final String AUTHORIZATION_HEADER ;
+    public final String BEARER_PREFIX;
 
     private final JwtProvider jwtProvider;
 
-    public JwtFilter(JwtProvider jwtProvider) {
+    public JwtFilter(JwtProvider jwtProvider, JWTProperties jwtProperties) {
         this.jwtProvider = jwtProvider;
+        this.AUTHORIZATION_HEADER = jwtProperties.accessTokenHeader();
+        this.BEARER_PREFIX = jwtProperties.bearerHeader();
     }
 
     // 실제 필터링 로직
@@ -42,9 +46,9 @@ public class JwtFilter extends OncePerRequestFilter {
             
             // SecurityContext에 인증 정보를 저장합니다.
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), request.getRequestURI());
+            log.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), request.getRequestURI());
         } else {
-            logger.debug("유효한 JWT 토큰이 없습니다, uri: {}", request.getRequestURI());
+            log.debug("유효한 JWT 토큰이 없습니다, uri: {}", request.getRequestURI());
         }
 
         // 다음 필터로 요청을 전달합니다.
