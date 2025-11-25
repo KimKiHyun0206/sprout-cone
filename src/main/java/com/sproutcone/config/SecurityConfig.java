@@ -39,7 +39,14 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // /api/login, /api/signup 등 인증 없이 허용할 엔드포인트
-                        .requestMatchers("/api/auth/**", "/public/**").permitAll()
+
+                        .requestMatchers("/api/auth/**", "/public/**",   "/", "/login",
+    "/me", "/mypage",
+    "/running-art-generate",
+    "/running-art/**",
+    "/css/**", "/js/**", "/images/**", "/favicon.ico",
+    "/api/auth/**", "/public/**",
+    "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
 
                         // Swagger UI 경로 허용
                         .requestMatchers(SWAGGER_WHITELIST).permitAll() //http://localhost:8080/swagger-ui.html
