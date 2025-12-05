@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>러닝아트 상세보기 - Aetheria</title>
+    <link rel="icon" href="../static/favicon.png" />
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Shooting Stars -->
+    <link rel="stylesheet" href="/css/shooting-stars.css" />
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- Background -->
+    <div class="fixed inset-0 z-0"
+        style="
+            background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mainimage-Y4rlZOTP9RUdC9Xor2mwCYia19aP9V.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        ">
+    </div>
+    <div class="fixed inset-0 z-0 bg-black/50"></div>
+
+    <!-- Stars -->
+    <div class="shooting-stars fixed inset-0 z-[5] pointer-events-none"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 min-h-screen flex flex-col px-6 py-8">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-10">
+            <a href="/mypage" class="text-white hover:opacity-80 transition flex items-center gap-2">
+                ← 목록으로
+            </a>
+
+            <a href="/" class="hover:opacity-80 transition">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%202025%EB%85%84%2011%EC%9B%94%2012%EC%9D%BC%20%EC%98%A4%ED%9B%84%2006_49_46-KkdNi8eRKRtmyvGjfBZ8KIzSsAc6s4.png"
+                    class="h-10 object-contain" alt="Aetheria 로고" />
+            </a>
+        </header>
+
+        <main class="flex-1 max-w-6xl mx-auto w-full">
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+                <!-- Left: Image Section -->
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                    <img src="/heart-running-art.jpg" alt="러닝아트"
+                        class="w-full rounded-xl shadow-lg" />
+
+                    <div class="flex gap-4 mt-6">
+                        <button
+                            class="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-semibold transition">
+                            다운로드
+                        </button>
+
+                        <button
+                            class="flex-1 bg-white/10 border border-white/20 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition">
+                            공유하기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Info Section -->
+                <div class="space-y-8">
+
+                    <!-- Title + Info -->
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                        <h1 class="text-3xl font-bold text-white mb-6">
+                            서울시 강남구 - 2025-01-15
+                        </h1>
+
+                        <div class="space-y-4">
+
+                            <div class="flex items-start gap-3">
+                                <div class="text-purple-300 text-xl">📏</div>
+                                <div>
+                                    <p class="text-white/70 text-sm">거리</p>
+                                    <p class="text-white text-lg font-semibold">3km</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="text-purple-300 text-xl">📍</div>
+                                <div>
+                                    <p class="text-white/70 text-sm">위치</p>
+                                    <p class="text-white text-lg font-semibold">서울시 강남구</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="text-purple-300 text-xl">⏰</div>
+                                <div>
+                                    <p class="text-white/70 text-sm">생성 시간</p>
+                                    <p class="text-white text-lg font-semibold">
+                                        2025-01-15 14:30
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="pt-4 border-t border-white/20">
+                                <p class="text-white/70 text-sm mb-2">설명</p>
+                                <p class="text-white leading-relaxed">
+                                    강남역에서 선릉역 방향으로 달리며 만든 하트 모양 러닝아트입니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Route Info -->
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                        <h3 class="text-white font-semibold text-xl mb-4">경로 정보</h3>
+
+                        <div class="space-y-3 text-white">
+
+                            <div>
+                                <p class="text-white/70 text-sm">실력 수준</p>
+                                <p class="text-white">초보자</p>
+                            </div>
+
+                            <div>
+                                <p class="text-white/70 text-sm">모양</p>
+                                <p class="text-white">하트</p>
+                            </div>
+
+                            <div>
+                                <p class="text-white/70 text-sm">출발 지점</p>
+                                <p class="text-white">서울시 강남구 강남대로 396</p>
+                            </div>
+
+                            <div>
+                                <p class="text-white/70 text-sm">도착 지점</p>
+                                <p class="text-white">서울시 강남구 테헤란로 152</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <button
+                        class="w-full bg-red-500/20 border border-red-500/40 text-red-300 py-3 rounded-lg hover:bg-red-500/30 hover:text-red-200 transition font-semibold">
+                        러닝아트 삭제
+                    </button>
+
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
